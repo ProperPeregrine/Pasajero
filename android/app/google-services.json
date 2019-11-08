@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "553484051644",
+    "firebase_url": "https://locationpassenger.firebaseio.com",
+    "project_id": "locationpassenger",
+    "storage_bucket": "locationpassenger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553484051644:android:8ca372ccab55a285dc9cb9",
+        "android_client_info": {
+          "package_name": "com.example.pasajero"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553484051644-g3c2grbp29sirutjph6ml0s3leq8ikhv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaTUV-Hl5UXGUCJxXJ7CGMMBE5aYwcQe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553484051644-g3c2grbp29sirutjph6ml0s3leq8ikhv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
