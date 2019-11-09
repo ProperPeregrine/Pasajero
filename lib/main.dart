@@ -26,6 +26,8 @@ class MyMapSampleState extends State<MyMap> {
 
   final Map<String, Marker> _markers = {};
 
+ // BitmapDescriptor myIcon;
+
   List <int>id = List<int>();
   List <int>pass = List<int>();
   List <double> lat = List<double>();
@@ -33,11 +35,12 @@ class MyMapSampleState extends State<MyMap> {
 
       GoogleMapController mapController;
 
-  Set<Circle> circles = Set.from([Circle(
-    //circleId: CircleId(),
-    center: LatLng(10.396223,123.92164),
-    radius: 4000,
-  )]);
+//  Set<Circle> circles = Set.from([Circle(
+//    //circleId: CircleId(),
+//    center: LatLng(10.396223,123.92164),
+//    radius: 4000,
+//  )]);
+
 
   void _addmarker() {
 
@@ -55,6 +58,7 @@ class MyMapSampleState extends State<MyMap> {
         infoWindow: InfoWindow(
           title: ('Jeep #$val Passengers: $p/20'),
         ),
+       // icon: myIcon
       );
 
       setState(() {
@@ -116,7 +120,7 @@ class MyMapSampleState extends State<MyMap> {
                   getData();
                   },
                 tooltip: 'Get Location',
-                child: Icon(Icons.flag),
+                child: Icon(Icons.adjust),
                ),
                 FloatingActionButton(
                   onPressed: (){
@@ -124,7 +128,7 @@ class MyMapSampleState extends State<MyMap> {
                     getData();
                     print('Hi');
                   },
-                  child: Icon(Icons.flag),
+                  child: Icon(Icons.directions_bus),
                 ),
              ],
             ),
@@ -133,6 +137,16 @@ class MyMapSampleState extends State<MyMap> {
       ),
     );
   }
+
+//  @override
+//  void initState() {
+//    // TODO: implement initState
+//    BitmapDescriptor.fromAssetImage(
+//        ImageConfiguration(size: Size(48,48)), '../assets/jeep.jpg')
+//        .then((onValue){
+//      myIcon = onValue;
+//    });
+//  }
 
   Future getData() async{
 
