@@ -86,7 +86,7 @@ class MyMapSampleState extends State<MyMap> {
         CameraUpdate.newCameraPosition(
           CameraPosition(
             target: LatLng(currentLocation.latitude, currentLocation.longitude),
-            zoom: 13.0,
+            zoom: 16.0,
           ),
         ),
       );
@@ -108,7 +108,7 @@ class MyMapSampleState extends State<MyMap> {
             },
             initialCameraPosition: CameraPosition(
               target: LatLng(13.396223, 123.92164),
-              zoom: 11,
+              zoom: 4.5,
             ),
             markers: _markers.values.toSet(),
             //circles: circles,
@@ -128,6 +128,7 @@ class MyMapSampleState extends State<MyMap> {
                     getData();
                     print('Hi');
                   },
+                  tooltip: 'Show Nearby Jeepneys',
                   child: Icon(Icons.directions_bus),
                 ),
              ],
