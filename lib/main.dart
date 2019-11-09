@@ -26,8 +26,10 @@ class MyMapSampleState extends State<MyMap> {
 
   final Map<String, Marker> _markers = {};
 
-  List <String>id, pass = new List();
-  List <String> lat, lng = [];
+  List <int>id = List<int>();
+  List <int>pass = List<int>();
+  List <double> lat = List<double>();
+  List <double> lng = List<double>();
 
       GoogleMapController mapController;
 
@@ -36,27 +38,31 @@ class MyMapSampleState extends State<MyMap> {
     center: LatLng(10.396223,123.92164),
     radius: 4000,
   )]);
-/*
+
   void _addmarker() {
 
-    final String val = id.toString();
-    final String p = pass.toString();
-    final MarkerId markerId = MarkerId(val);
 
-    final Marker marker = Marker(
-      markerId: markerId,
-      position: LatLng(lat,lng),
-      infoWindow: InfoWindow(
-        title: ('Jeep #$val Passengers: $p/20'),
-      ),
-    );
 
-    setState(() {
-      _markers[val] = marker;
-    });
-    print(val);
+    for(int i in id) {
+
+      final String val = i.toString();
+      final String p = pass[id.indexOf(i)].toString();
+      final MarkerId markerId = MarkerId(val);
+
+      final Marker marker = Marker(
+        markerId: markerId,
+        position: LatLng(lat[id.indexOf(i)], lng[id.indexOf(i)]),
+        infoWindow: InfoWindow(
+          title: ('Jeep #$val Passengers: $p/20'),
+        ),
+      );
+
+      setState(() {
+        _markers[val] = marker;
+      });
+    }
+   // print(val);
   }
-  */
 
 //  final Map<String,double> _lat = 0.0;
 
@@ -72,7 +78,6 @@ class MyMapSampleState extends State<MyMap> {
         infoWindow: InfoWindow(title: 'Your Location'),
       );
       _markers["Current Location"] = marker;
-//      print("_getLocation function: $_lat, $_lng");
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -84,49 +89,6 @@ class MyMapSampleState extends State<MyMap> {
     });
 
   }
-
-//  var locations = [];
-//  var currentLocation;
-//  bool mapToggle = false;
-//  bool clientsToggle = false;
-//
-//  void initState() {
-//    super.initState();
-//    Geolocator().getCurrentPosition().then((currloc) {
-//      setState(() {
-//        currentLocation = currloc;
-//        mapToggle = true;
-//        databaseLocation();
-//      });
-//    });
-//  }
-//
-//  databaseLocation(){
-//    locations = [];
-//    Firestore.instance.collection('locations').getDocuments().then((docs) {
-//      if (docs.documents.isNotEmpty) {
-//        setState(() {
-//          clientsToggle = true;
-//        });
-//        for (int i = 0; i < docs.documents.length; ++i) {
-//          locations.add(docs.documents[i].data);
-//          initMarker(docs.documents[i].data);
-//        }
-//      }
-//    });
-//  }
-//
-//  initMarker(locations) {
-//      _markers.clear();
-//      final marker = Marker(
-//        markerId: MarkerId("curr_loc"),
-//        position: LatLng(locations['sacsac'].latitude, locations['sacsac'].longitude),
-//       infoWindow: InfoWindow(title: 'Your Location'),
-//      );
-//      _markers["Current Location"] = marker;
-//  }
-////  var _data = '';
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +120,7 @@ class MyMapSampleState extends State<MyMap> {
                ),
                 FloatingActionButton(
                   onPressed: (){
-//                    _addmarker();
+                    _addmarker();
                     getData();
                     print('Hi');
                   },
@@ -178,22 +140,28 @@ class MyMapSampleState extends State<MyMap> {
     var url = 'https://oecumenical-deviati.000webhostapp.com/try.php';
     http.Response response = await http.get(url);
 
+    id.clear();
+    pass.clear();
+    lat.clear();
+    lng.clear();
     List<dynamic> use = jsonDecode(response.body);
 
     int len = use.length;
 //    var data = jsonDecode(response.body);
     print('${use.runtimeType}:$use : length is $len');
-//    print(use[len-1]['id']);
+
     for(var i in use)
       {
-        print(i['id']);
-        id.add(i['id']);
-        print(i['lat']);
-        print(i['lng']);
-        print(i['passengers']);
+        id.add(int.parse(i['id']));
+        pass.add(int.parse(i['passengers']));
+        lat.add(double.parse(i['lat']));
+        lng.add(double.parse(i['lng']));
       }
 
-    print(id);
+    print('IDs; $id');
+    print('LAT: $lat');
+    print('LNG: $lng');
+    print('PASSENGERS: $pass');
 
 
 
