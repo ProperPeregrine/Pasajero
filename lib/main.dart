@@ -26,13 +26,43 @@ class MyMapSampleState extends State<MyMap> {
 
   final Map<String, Marker> _markers = {};
 
-  GoogleMapController mapController;
+  List <String>id, pass = new List();
+  List <String> lat, lng = [];
 
-  var _data = '';
+      GoogleMapController mapController;
+
+  Set<Circle> circles = Set.from([Circle(
+    //circleId: CircleId(),
+    center: LatLng(10.396223,123.92164),
+    radius: 4000,
+  )]);
+/*
+  void _addmarker() {
+
+    final String val = id.toString();
+    final String p = pass.toString();
+    final MarkerId markerId = MarkerId(val);
+
+    final Marker marker = Marker(
+      markerId: markerId,
+      position: LatLng(lat,lng),
+      infoWindow: InfoWindow(
+        title: ('Jeep #$val Passengers: $p/20'),
+      ),
+    );
+
+    setState(() {
+      _markers[val] = marker;
+    });
+    print(val);
+  }
+  */
+
+//  final Map<String,double> _lat = 0.0;
 
   void _getLocation() async {
     var currentLocation = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
       _markers.clear();
@@ -42,16 +72,17 @@ class MyMapSampleState extends State<MyMap> {
         infoWindow: InfoWindow(title: 'Your Location'),
       );
       _markers["Current Location"] = marker;
-
+//      print("_getLocation function: $_lat, $_lng");
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
             target: LatLng(currentLocation.latitude, currentLocation.longitude),
-            zoom: 18.0,
+            zoom: 13.0,
           ),
         ),
       );
     });
+
   }
 
 //  var locations = [];
@@ -99,34 +130,82 @@ class MyMapSampleState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: GoogleMap(
+    return MaterialApp(
+      home: Scaffold(
+        body: Stack(children: <Widget>[
+          GoogleMap(
 //        mapType: MapType.hybrid,
-        onMapCreated: (GoogleMapController controller) {
-          mapController = controller;
-          _getLocation();
-          getData();
-        },
-        initialCameraPosition: CameraPosition(
-          target: LatLng(40.688841, -74.044015),
-          zoom: 11,
+            onMapCreated: (GoogleMapController controller) {
+            mapController = controller;
+//          _getLocation();
+//          getData();
+            },
+            initialCameraPosition: CameraPosition(
+              target: LatLng(13.396223, 123.92164),
+              zoom: 11,
+            ),
+            markers: _markers.values.toSet(),
+            //circles: circles,
+          ),
+              Column(children: <Widget>[
+                FloatingActionButton(
+                onPressed: (){
+                  _getLocation();
+                  getData();
+                  },
+                tooltip: 'Get Location',
+                child: Icon(Icons.flag),
+               ),
+                FloatingActionButton(
+                  onPressed: (){
+//                    _addmarker();
+                    getData();
+                    print('Hi');
+                  },
+                  child: Icon(Icons.flag),
+                ),
+             ],
+            ),
+          ],
         ),
-        markers: _markers.values.toSet(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getLocation,
-        tooltip: 'Get Location',
-        child: Icon(Icons.flag),
       ),
     );
   }
 
   Future getData() async{
-    var url = 'https://oecumenical-deviati.000webhostapp.com/get.php';
+
+//    var url = 'https://oecumenical-deviati.000webhostapp.com/get.php';
+    var url = 'https://oecumenical-deviati.000webhostapp.com/try.php';
     http.Response response = await http.get(url);
-    var data = jsonDecode(response.body);
-//    print(data.toString());
-//    _data = data.toString();
+
+    List<dynamic> use = jsonDecode(response.body);
+
+    int len = use.length;
+//    var data = jsonDecode(response.body);
+    print('${use.runtimeType}:$use : length is $len');
+//    print(use[len-1]['id']);
+    for(var i in use)
+      {
+        print(i['id']);
+        id.add(i['id']);
+        print(i['lat']);
+        print(i['lng']);
+        print(i['passengers']);
+      }
+
+    print(id);
+
+
+
+
+//    lng = double.parse(data['lng']);
+//    id = int.parse(data['Id']);
+//    pass = int.parse(data['passengers']);
+//
+//    print("Latitude: $lat Longitude: $lng");
+//    print('${lat.runtimeType}:$lat');
+//    print('${lng.runtimeType}:$lng');
+//    print('${id.runtimeType}:$id');
 
   }
 
